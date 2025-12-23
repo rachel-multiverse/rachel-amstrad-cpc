@@ -172,6 +172,13 @@ rsh_copy:
         djnz rsh_copy
 
 rsh_done:
+        ; Platform ID at payload+16 (big-endian)
+        ; Amstrad CPC = 0x0009
+        ld a, $00
+        ld (TX_BUFFER + PAYLOAD_START + 16), a
+        ld a, $09               ; Platform 9 = Amstrad CPC
+        ld (TX_BUFFER + PAYLOAD_START + 17), a
+
         call rubp_set_checksum
         call net_send
         ret
